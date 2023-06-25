@@ -29,6 +29,7 @@ export default function Create() {
     switchNetwork?.(selectedChainId);
       console.log("ARBI KEY:");
       console.log(process.env.ARBI_KEY!);
+      console.log("POG")
   }
 
   async function getDeployData() {
@@ -60,6 +61,7 @@ export default function Create() {
   const { sendTransaction } = useSendTransaction(config);
   console.log("ARBI KEY:")
   console.log(process.env.ARBI_KEY!);
+  console.log("POG2");
   return (
     <div className="Create">
       <h2 className="create-title">Redeploy safe on new chain</h2>
