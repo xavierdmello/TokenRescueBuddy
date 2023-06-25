@@ -18,11 +18,12 @@ export default function Create() {
   let apiKeyMap = new Map<number, string[]>();
   const PROXY_FACTORY_ADDRESS = "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2"; // SAME ACROSS ALL SUPPORTED CHAINS
   const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`;
-  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", import.meta.env.ARBI_KEY!]);
-  apiKeyMap.set(1, ["https://api.etherscan.io/api?", import.meta.env.ETHER_KEY!]);
-  apiKeyMap.set(56, ["https://api.bscscan.com/api?", import.meta.env.BSC_KEY!]);
-  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", import.meta.env.POLYGON_KEY!]);
-  apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", import.meta.env.GNOSIS_KEY!]);
+  // KEYS ARE PUBLIC, WILL BE FIXED LATER - COMPLICATIONS WITH .ENV
+  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", "XKDKAWYX2H8H93T6GGIS3QGYG7F9UQ389X"]);
+  apiKeyMap.set(1, ["https://api.etherscan.io/api?", "CIMV43RYIQI61HRB6T8WR4K8XXQMWVQV28"]);
+  apiKeyMap.set(56, ["https://api.bscscan.com/api?", "RY147JT1XJEIU75CJJV6WQQBIAUQJU7KA5"]);
+  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", "J6KQKW3866TPVYKSC2J1W65PVFS6FJ3GTG"]);
+  apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", "7SBSAKGDRF1DF647Q52FCWWK5H6SR9VG3R"]);
 
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
