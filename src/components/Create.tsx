@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/Create.css";
-import { useNetwork, useSwitchNetwork, usePrepareSendTransaction, useSendTransaction, useWalletClient } from "wagmi";
+import { useNetwork, useSwitchNetwork,useWaitForTransaction,  usePrepareSendTransaction, useSendTransaction, useWalletClient } from "wagmi";
 import { Button, Divider, Select, TextField, Tooltip, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useDebounce } from "use-debounce";
 import axios from "axios";
@@ -8,7 +8,7 @@ export default function Create() {
   const { chain: currentChain } = useNetwork();
   const [safeAddress, setSafeAddress] = useState("");
   const [originChain, setOriginChain] = useState("");
-  const { chains, error, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork();
+  const { chains, switchNetwork } = useSwitchNetwork();
   const [debouncedSafeAddress] = useDebounce(safeAddress, 500);
   const { data: walletClient } = useWalletClient();
   const [deployData, setDeployData] = useState<`0x${string}`>("0x");
@@ -18,7 +18,7 @@ export default function Create() {
   let apiKeyMap = new Map<number, string[]>();
   const PROXY_FACTORY_ADDRESS = "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2"; // SAME ACROSS ALL SUPPORTED CHAINS
   const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`;
-  // KEYS ARE PUBLIC, WILL BE FIXED LATER - COMPLICATIONS WITH .ENV
+  // KEYS ARE PUBLIC & FREE, DON'T WORRY, WILL BE FIXED LATER - COMPLICATIONS WITH .ENV
   apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", "XKDKAWYX2H8H93T6GGIS3QGYG7F9UQ389X"]);
   apiKeyMap.set(1, ["https://api.etherscan.io/api?", "CIMV43RYIQI61HRB6T8WR4K8XXQMWVQV28"]);
   apiKeyMap.set(56, ["https://api.bscscan.com/api?", "RY147JT1XJEIU75CJJV6WQQBIAUQJU7KA5"]);
@@ -55,7 +55,10 @@ export default function Create() {
     value: BigInt(0),
     data: deployData,
   });
-  const { sendTransaction } = useSendTransaction(config);
+  const { data, sendTransaction } = useSendTransaction(config);
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   return (
     <div className="Create">
@@ -128,6 +131,8 @@ export default function Create() {
             Deploy
           </Button>
         )}
+        {isLoading && <p>Sending transaction... ⏳</p>}
+        {isSuccess && <p>Transaction success 🎉</p>}
       </div>
     </div>
   );
