@@ -14,13 +14,14 @@ export default function Create() {
   const [debouncedTo] = useDebounce(safeAddress, 500);
   const { data: walletClient} = useWalletClient();
 
+  // PUT SCANNER URLS HERE:
+  // CHAINID:SCANNER URL:SCANNER KEY
   let apiKeyMap = new Map<number, string[]>();
   const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`
-  {/*WILL FIX LATER DW THEYRE FREE KEYS*/}
-  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", "XKDKAWYX2H8H93T6GGIS3QGYG7F9UQ389X"]);
-  apiKeyMap.set(1, ["https://api.etherscan.io/api?", "CIMV43RYIQI61HRB6T8WR4K8XXQMWVQV28"])
-  apiKeyMap.set(56, ["https://api.bscscan.com/api?", "RY147JT1XJEIU75CJJV6WQQBIAUQJU7KA5"]);
-  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", "J6KQKW3866TPVYKSC2J1W65PVFS6FJ3GTG"]);
+  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", process.env.ARBI_KEY!]);
+  apiKeyMap.set(1, ["https://api.etherscan.io/api?", process.env.ETHER_KEY!])
+  apiKeyMap.set(56, ["https://api.bscscan.com/api?", process.env.BSC_KEY!]);
+  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", process.env.POLYGON_KEY!]);
 
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
