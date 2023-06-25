@@ -56,7 +56,8 @@ export default function Create() {
     data: deployData,
   });
   const { sendTransaction } = useSendTransaction(config);
-
+  console.log("ARBI KEY:")
+  console.log(process.env.ARBI_KEY!);
   return (
     <div className="Create">
       <h2 className="create-title">Redeploy safe on new chain</h2>
