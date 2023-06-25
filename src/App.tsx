@@ -4,7 +4,6 @@ import Create from "./components/Create";
 import Header from "./components/Header";
 import { Divider } from "@mui/material";
 import { useAccount } from "wagmi";
-import "dotenv/config"
 
 function App() {
   const {isConnected } = useAccount();
