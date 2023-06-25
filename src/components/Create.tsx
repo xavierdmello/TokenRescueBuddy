@@ -27,6 +27,8 @@ export default function Create() {
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
     switchNetwork?.(selectedChainId);
+      console.log("ARBI KEY:");
+      console.log(process.env.ARBI_KEY!);
   }
 
   async function getDeployData() {
