@@ -131,9 +131,9 @@ export default function Create() {
             Deploy
           </Button>
         )}
-        {isLoading && <p>Sending transaction... ⏳</p>}
-        {isSuccess && <p>Transaction success 🎉</p>}
       </div>
+      {isLoading && <p>Redeploying safe... ⏳</p>}
+      {isSuccess && <p>Safe sucessfully redeployed! 🎉</p>}
     </div>
   );
 }
