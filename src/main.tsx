@@ -10,10 +10,10 @@ import "@safe-global/safe-react-components/dist/fonts.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig,  } from "wagmi";
-import { mainnet, arbitrum, bsc, polygon } from "wagmi/chains";
+import { mainnet, arbitrum, bsc, polygon, gnosis } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
-const { chains, publicClient } = configureChains([mainnet, bsc, polygon, arbitrum], [publicProvider()]);
+const { chains, publicClient } = configureChains([mainnet, bsc, polygon, arbitrum, gnosis], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: "Token Rescue Buddy",
