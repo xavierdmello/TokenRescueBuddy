@@ -39,7 +39,8 @@ export default function Create() {
     const getTxByHash = `module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=`;
     const data2 = await axios.get(prefix + getTxByHash + key);
     const hexData: `0x${string}` = data2.data.result.input; // THATS SOME GOOD SHIT
-
+    console.log("hex data:")
+    console.log(hexData)
     return hexData;
   }
 
