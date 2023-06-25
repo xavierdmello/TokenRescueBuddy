@@ -37,6 +37,8 @@ export default function Create() {
     const prefix = apiKeyMap.get(selectedOrignChainId)?.[0];
     const key = apiKeyMap.get(selectedOrignChainId)?.[1];
     const data = await axios.get(prefix + getContractCreation + key);
+    console.log("MEOW9341829")
+    console.log(prefix + getContractCreation + key);
     const txHash = data.data.result[0].txHash;
     const getTxByHash = `module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=`;
     const data2 = await axios.get(prefix + getTxByHash + key);
