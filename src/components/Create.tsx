@@ -22,6 +22,7 @@ export default function Create() {
   apiKeyMap.set(1, ["https://api.etherscan.io/api?", process.env.ETHER_KEY!])
   apiKeyMap.set(56, ["https://api.bscscan.com/api?", process.env.BSC_KEY!]);
   apiKeyMap.set(137, ["https://api.polygonscan.com/api?", process.env.POLYGON_KEY!]);
+  apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", process.env.GNOSIS_KEY!]);
 
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
