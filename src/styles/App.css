@@ -1,0 +1,20 @@
+.App {
+  width: 75%;
+  max-width: 800px;
+  margin: 0px auto;
+  border: 1px solid #303033;
+  border-width: thin;
+  box-sizing: border-box;
+}
+
+.connect-wallet-warning {
+  margin: 0px 0px;
+  padding: 75px 15px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .App {
+    width: 100%;
+  }
+}

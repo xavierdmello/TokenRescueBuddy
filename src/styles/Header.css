@@ -1,0 +1,19 @@
+.header_logo {
+  width: 250px;
+}
+
+.Header {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-background-paper);
+  justify-content: space-between;
+  padding: 15px;
+  align-items: center;
+}
+
+@media only screen and (max-width: 500px) {
+  .header_logo {
+    content: url(../assets/icon.png);
+    width: 45px;
+  }
+}

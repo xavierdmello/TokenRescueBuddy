@@ -1,0 +1,44 @@
+.Create {
+    margin: 0px 0px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dotted {
+    text-decoration: underline dotted;
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    -webkit-text-decoration-style: dotted'
+}
+
+.create-title {
+    font-weight: 500;
+    margin: 0;
+}
+.create-subheading {
+    font-weight: 100;
+    margin: 0;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.create-safe-button {
+    width: fit-content;
+    height: fit-content;
+}
+
+.inline {
+    display: inline !important;
+}
+
+.create-safe-label {
+    max-width: 60%;
+}

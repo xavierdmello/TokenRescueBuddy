@@ -1,0 +1,15 @@
+
+
+:root {
+  --color-background-main: #121312;
+  --color-background-paper: #1c1c1c;
+  --color-text-primary: #fff;
+}
+
+body {
+  font-family: 'DM Sans';
+  font-display: swap;
+  background-color: var(--color-background-main);
+  color: var(--color-text-primary);
+}
+
