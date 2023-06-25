@@ -4,7 +4,6 @@ import { useNetwork, useSwitchNetwork, usePrepareSendTransaction, useSendTransac
 import { Button, Divider, Select, TextField, Tooltip, MenuItem, InputLabel, FormControl } from "@mui/material";
 import { useDebounce } from "use-debounce";
 import axios from "axios";
-
 export default function Create() {
   const { chain: currentChain } = useNetwork();
   const [safeAddress, setSafeAddress] = useState("");
