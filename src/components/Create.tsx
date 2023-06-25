@@ -28,9 +28,6 @@ export default function Create() {
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
     switchNetwork?.(selectedChainId);
-      console.log("ARBI KEY:");
-      console.log(process.env.ARBI_KEY!);
-      console.log("POG")
   }
 
   async function getDeployData() {
@@ -38,14 +35,11 @@ export default function Create() {
     const prefix = apiKeyMap.get(selectedOrignChainId)?.[0];
     const key = apiKeyMap.get(selectedOrignChainId)?.[1];
     const data = await axios.get(prefix + getContractCreation + key);
-    console.log("MEOW9341829")
-    console.log(prefix + getContractCreation + key);
     const txHash = data.data.result[0].txHash;
     const getTxByHash = `module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=`;
     const data2 = await axios.get(prefix + getTxByHash + key);
     const hexData: `0x${string}` = data2.data.result.input; // THATS SOME GOOD SHIT
-    console.log("hex data:")
-    console.log(hexData)
+
     return hexData;
   }
 
@@ -62,9 +56,7 @@ export default function Create() {
     data: deployData,
   });
   const { sendTransaction } = useSendTransaction(config);
-  console.log("ARBI KEY:")
-  console.log(process.env.ARBI_KEY!);
-  console.log("POG2");
+
   return (
     <div className="Create">
       <h2 className="create-title">Redeploy safe on new chain</h2>
@@ -127,9 +119,15 @@ export default function Create() {
           <br />
           You can update these later.
         </p>
-        <Button className="create-safe-button" size="medium" variant="outlined" onClick={() => sendTransaction}>
-          Deploy
-        </Button>
+        {sendTransaction ? (
+          <Button className="create-safe-button" size="medium" variant="outlined" disabled={!sendTransaction} onClick={() => sendTransaction()}>
+            Deploy
+          </Button>
+        ) : (
+          <Button className="create-safe-button" size="medium" variant="outlined" disabled={!sendTransaction}>
+            Deploy
+          </Button>
+        )}
       </div>
     </div>
   );
