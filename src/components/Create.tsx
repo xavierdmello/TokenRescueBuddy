@@ -132,8 +132,16 @@ export default function Create() {
           </Button>
         )}
       </div>
-      {isLoading && <p>Redeploying safe... ⏳</p>}
-      {isSuccess && <p>Safe sucessfully redeployed! 🎉</p>}
+      {isLoading && (
+        <p>
+          <mark>Deploying safe... ⏳</mark>
+        </p>
+      )}
+      {isSuccess && (
+        <p>
+          <mark className="finalMark">Safe sucessfully deployed! 🎉</mark>
+        </p>
+      )}
     </div>
   );
 }
