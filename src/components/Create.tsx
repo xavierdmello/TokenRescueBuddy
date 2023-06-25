@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Create.css";
 import { useNetwork, useSwitchNetwork, usePrepareSendTransaction, useSendTransaction, useWalletClient } from "wagmi";
 import { Button, Divider, Select, TextField, Tooltip, MenuItem, InputLabel, FormControl } from "@mui/material";
-import {useDebounce} from "use-debounce"
+import { useDebounce } from "use-debounce";
 import axios from "axios";
-import ethers from "ethers"
 
 export default function Create() {
   const { chain: currentChain } = useNetwork();
   const [safeAddress, setSafeAddress] = useState("");
   const [originChain, setOriginChain] = useState("");
   const { chains, error, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork();
-  const [debouncedTo] = useDebounce(safeAddress, 500);
-  const { data: walletClient} = useWalletClient();
+  const [debouncedSafeAddress] = useDebounce(safeAddress, 500);
+  const { data: walletClient } = useWalletClient();
+  const [deployData, setDeployData] = useState<`0x${string}`>("0x");
 
   // PUT SCANNER URLS HERE:
   // CHAINID:SCANNER URL:SCANNER KEY
   let apiKeyMap = new Map<number, string[]>();
-  const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`
+  const PROXY_FACTORY_ADDRESS = "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2"; // SAME ACROSS ALL SUPPORTED CHAINS
+  const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`;
   apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", process.env.ARBI_KEY!]);
-  apiKeyMap.set(1, ["https://api.etherscan.io/api?", process.env.ETHER_KEY!])
+  apiKeyMap.set(1, ["https://api.etherscan.io/api?", process.env.ETHER_KEY!]);
   apiKeyMap.set(56, ["https://api.bscscan.com/api?", process.env.BSC_KEY!]);
   apiKeyMap.set(137, ["https://api.polygonscan.com/api?", process.env.POLYGON_KEY!]);
   apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", process.env.GNOSIS_KEY!]);
@@ -29,7 +30,7 @@ export default function Create() {
     switchNetwork?.(selectedChainId);
   }
 
-  async function handleDeploy() {
+  async function getDeployData() {
     const selectedOrignChainId = chains.filter((tempChain) => tempChain.name === originChain)[0].id;
     const prefix = apiKeyMap.get(selectedOrignChainId)?.[0];
     const key = apiKeyMap.get(selectedOrignChainId)?.[1];
@@ -37,19 +38,24 @@ export default function Create() {
     const txHash = data.data.result[0].txHash;
     const getTxByHash = `module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=`;
     const data2 = await axios.get(prefix + getTxByHash + key);
-    const hexData: string = data2.data.result.input; // THATS SOME GOOD SHIT
-    
-    const singer = walletClient;
-    await walletClient?.sendTransaction({
-      chain: currentChain,
-      // @ts-ignore
-      data: hexData,
-      value: BigInt(0),
-      to: "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2",
-    });
+    const hexData: `0x${string}` = data2.data.result.input; // THATS SOME GOOD SHIT
 
+    return hexData;
   }
 
+  useEffect(() => {
+    async function useEffectTempAsyncCall() {
+      setDeployData(await getDeployData());
+    }
+    useEffectTempAsyncCall();
+  }, [debouncedSafeAddress, originChain]);
+
+  const { config } = usePrepareSendTransaction({
+    to: PROXY_FACTORY_ADDRESS,
+    value: BigInt(0),
+    data: deployData,
+  });
+  const { sendTransaction } = useSendTransaction(config);
 
   return (
     <div className="Create">
@@ -113,7 +119,7 @@ export default function Create() {
           <br />
           You can update these later.
         </p>
-        <Button className="create-safe-button" size="medium" variant="outlined" onClick={handleDeploy}> 
+        <Button className="create-safe-button" size="medium" variant="outlined" onClick={() => sendTransaction}>
           Deploy
         </Button>
       </div>
