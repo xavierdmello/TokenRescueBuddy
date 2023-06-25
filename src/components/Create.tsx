@@ -18,11 +18,11 @@ export default function Create() {
   let apiKeyMap = new Map<number, string[]>();
   const PROXY_FACTORY_ADDRESS = "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2"; // SAME ACROSS ALL SUPPORTED CHAINS
   const getContractCreation = `module=contract&action=getcontractcreation&contractaddresses=${safeAddress}&apikey=`;
-  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", process.env.ARBI_KEY!]);
-  apiKeyMap.set(1, ["https://api.etherscan.io/api?", process.env.ETHER_KEY!]);
-  apiKeyMap.set(56, ["https://api.bscscan.com/api?", process.env.BSC_KEY!]);
-  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", process.env.POLYGON_KEY!]);
-  apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", process.env.GNOSIS_KEY!]);
+  apiKeyMap.set(42161, ["https://api.arbiscan.io/api?", import.meta.env.ARBI_KEY!]);
+  apiKeyMap.set(1, ["https://api.etherscan.io/api?", import.meta.env.ETHER_KEY!]);
+  apiKeyMap.set(56, ["https://api.bscscan.com/api?", import.meta.env.BSC_KEY!]);
+  apiKeyMap.set(137, ["https://api.polygonscan.com/api?", import.meta.env.POLYGON_KEY!]);
+  apiKeyMap.set(100, ["https://api.gnosisscan.io/api?", import.meta.env.GNOSIS_KEY!]);
 
   function handleChange(e: string) {
     const selectedChainId = chains.filter((tempChain) => tempChain.name === e)[0].id;
